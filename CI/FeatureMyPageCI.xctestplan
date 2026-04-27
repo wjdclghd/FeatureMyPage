@@ -1,0 +1,39 @@
+{
+  "configurations" : [
+    {
+      "id" : "C06AD375-CFA0-4D7F-8610-17C6971545B4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FeatureMyPageCI.xcodeproj",
+      "identifier" : "55B0AFC62F9F675E006E43AF",
+      "name" : "FeatureMyPageCI"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:FeatureMyPageCI.xcodeproj",
+        "identifier" : "55B0AFD32F9F675F006E43AF",
+        "name" : "FeatureMyPageCITests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:FeatureMyPageCI.xcodeproj",
+        "identifier" : "55B0AFDD2F9F675F006E43AF",
+        "name" : "FeatureMyPageCIUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
