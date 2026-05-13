@@ -20,27 +20,28 @@ let package = Package(
         )
     ],
     dependencies: [
-        
+        .package(path: "../../Core/UI/DesignSystem")
     ],
     targets: [
         .target(
             name: "FeatureMyPage",
             dependencies: [
-                
+                "DesignSystem"
             ],
             path: "Sources/FeatureMyPage",
             linkerSettings: [
-                
+
             ]
         ),
         .testTarget(
             name: "FeatureMyPageTests",
             dependencies: [
-                
+                "FeatureMyPage",
+                "DesignSystem"
             ],
             path: "Tests/FeatureMyPageTests",
             linkerSettings: [
-                
+
             ]
         )
     ]
