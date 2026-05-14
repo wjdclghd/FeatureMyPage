@@ -8,9 +8,16 @@
 import SwiftUI
 import DesignSystem
 
-struct MyPageView: View {
-    let onOpenSettings: @MainActor () -> Void
-    let onLogout: @MainActor () -> Void
+struct MyPageView<
+    LogoutUseCase: MyPageLogoutUseCaseProtocol,
+    Coordinator: MyPageCoordinatorProtocol
+>: View {
+
+    @StateObject private var viewModel: MyPageViewModel<LogoutUseCase, Coordinator>
+
+    init(viewModel: MyPageViewModel<LogoutUseCase, Coordinator>) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         List {
@@ -21,9 +28,9 @@ struct MyPageView: View {
                         .foregroundStyle(DSColor.primary)
 
                     VStack(alignment: .leading, spacing: DSSpacing.xs) {
-                        Text("마이페이지")
+                        Text(viewModel.viewState.nickname)
                             .font(DSTypography.headline)
-                        Text("로그인된 사용자")
+                        Text(viewModel.viewState.email)
                             .font(DSTypography.body2)
                             .foregroundStyle(.secondary)
                     }
@@ -33,17 +40,26 @@ struct MyPageView: View {
 
             Section("메뉴") {
                 Button("설정") {
-                    Task { @MainActor in
-                        onOpenSettings()
-                    }
+                    viewModel.settingsButtonTapped()
                 }
 
                 Button(role: .destructive) {
-                    Task { @MainActor in
-                        onLogout()
-                    }
+                    viewModel.logoutButtonTapped()
                 } label: {
-                    Text("로그아웃")
+                    if viewModel.viewState.isLoggingOut {
+                        ProgressView()
+                    } else {
+                        Text("로그아웃")
+                    }
+                }
+                .disabled(viewModel.viewState.isLoggingOut)
+            }
+
+            if let errorMessage = viewModel.viewState.errorMessage {
+                Section {
+                    Text(errorMessage)
+                        .font(DSTypography.body2)
+                        .foregroundStyle(DSColor.error)
                 }
             }
         }
